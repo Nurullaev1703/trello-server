@@ -6,18 +6,28 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_HOST: db
-      DATABASE_PORT: 3306
-      DATABASE_USER: root
-      DATABASE_PASSWORD: root_password
-      DATABASE_NAME: my_database
+      - DATABASE_HOST=${MYSQL_HOST}
+      - DATABASE_PORT=${MYSQL_PORT}
+      - DATABASE_USER=${MYSQL_USERNAME}
+      - DATABASE_PASSWORD=${MYSQL_PASSWORD}
+      - DATABASE_NAME=${MYSQL_DATABASE}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
     depends_on:
       - db
+    env_file:
+      - .env
 
   db:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: my_database
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     ports:
       - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file:
+      - .env
+
+volumes:
+  db_data:
