@@ -6,28 +6,24 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_HOST=${MYSQL_HOST}
-      - DATABASE_PORT=${MYSQL_PORT}
-      - DATABASE_USER=${MYSQL_USERNAME}
-      - DATABASE_PASSWORD=${MYSQL_PASSWORD}
-      - DATABASE_NAME=${MYSQL_DATABASE}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - DATABASE_HOST=127.0.0.1
+      - DATABASE_PORT=3306
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=secretkey
+      - DATABASE_NAME=gerondb
+      - JWT_SECRET_KEY=gerontokenpass
     depends_on:
       - db
-    env_file:
-      - .env
 
   db:
     image: mysql:8
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=secretkey
+      - MYSQL_DATABASE=gerondb
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-    env_file:
-      - .env
 
 volumes:
   db_data:
